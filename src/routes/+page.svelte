@@ -5,13 +5,7 @@
 	import { ArrowLeft, ArrowRight } from 'lucide-svelte/icons';
 
 	let activities = writable<Array<Activity>>([
-		{
-			content: 'Test Content',
-			startTime: '00.00',
-			endTime: '00.00',
-			notes: 'Test Content',
-			status: 'Test Content'
-		}
+		
 	]);
 	let activeMonth = writable(8);
 	let activeDate = writable<number>(-1);
