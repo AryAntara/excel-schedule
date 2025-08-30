@@ -13,9 +13,8 @@ type gridProperty = {
 }
 
 export async function getValues(range: string) {
-    let key = process.env.SPREEDSHEET_KEY
     range = encodeURI(range);
-    let res = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/1KIDKlItOpjQIOBV2KlKQwz5M-Sb74GT1fG9_zLZlE14/values/${range}?key=${key}`);
+    let res = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/1KIDKlItOpjQIOBV2KlKQwz5M-Sb74GT1fG9_zLZlE14/values/${range}?key=AIzaSyAkf88_H0D-KOUqpbGDX9pMOdoBbGrk5VQ`);
     let content = await res.json();
-    return (content.values as [])?.slice(5)
+    return (content.values as []).slice(5)
 }
