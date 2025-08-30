@@ -143,9 +143,21 @@
 					{#each activity.notes.split('\n') as n}
 						<p class="mt-2 text-gray-700">{n}</p>
 					{/each}
-					{#if activity.status != ''}
-						<p class="mt-4 rounded-xl bg-gray-900 p-2 text-center text-white">{activity.status}</p>
-					{/if}
+				{#if activity.status != ''}
+					<p
+						class="mt-4 rounded-xl p-2 text-center text-white"
+						style="
+							background-color: {activity.status === 'Ditunda' ? '#facc15' /* yellow-400 */
+							: activity.status === 'Berjalan' ? '#3b82f6' /* blue-500 */
+							: activity.status === 'Selesai' ? '#22c55e' /* green-500 */
+							: activity.status === 'Dibatalkan' ? '#ef4444' /* red-500 */
+							: activity.status === 'Dilanjutkan' ? '#a21caf' /* purple-700 */
+							: '#111827' /* fallback gray-900 */};
+							color: white;"
+					>
+						{activity.status}
+					</p>
+				{/if}
 				</div>
 			</div>
 		{/each}
