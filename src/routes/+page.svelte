@@ -55,7 +55,7 @@
 
 	let days = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
 
-	async function getAllEvents(week?: number) {		
+	async function getAllEvents(week?: number) {
 		if (await isLatest())
 			try {
 				let events = JSON.parse(localStorage.getItem('events') ?? '');
@@ -72,11 +72,11 @@
 		let weeks = 8;
 		let eventOnWeeks: { week: number; activities: Activity[] }[] = [];
 		let sheetsNames: string[] = [];
-		for (let i = 1; i <= weeks; i++) sheetsNames.push(`Minggu ${i}!A6:F`);			
+		for (let i = 1; i <= weeks; i++) sheetsNames.push(`Minggu ${i}!A6:F`);
 
 		let bulkValues = await getBatchValues(sheetsNames);
 		let dates: DateEvent[] = [];
-		
+
 		for (let bv of bulkValues) {
 			let activities = extractEvent(bv.values);
 			let week = bv.range.split('Minggu ')[1].split("'!")[0];
@@ -143,12 +143,12 @@
 	async function selectDate(date: number) {
 		activeDate.set(date);
 		let week = getWeek();
-		let events = (await getAllEvents(week))?.activities ?? [];		
+		let events = (await getAllEvents(week))?.activities ?? [];
 		console.log(events);
 		activities.set(events.filter((e: Activity) => e.day == $activeDate && e.month == $activeMonth));
 	}
 
-	onMount(async () => {		
+	onMount(async () => {
 		await getAllEvents();
 	});
 </script>
@@ -157,7 +157,7 @@
 	class="
 	mx-4 mt-8 mb-32 block min-h-[100vh] items-start justify-start
 	sm:mx-auto
-	sm:flex sm:flex-col sm:items-center xl:justify-center xl:mt-0 xl:flex xl:flex-row xl:items-start xl:gap-4 xl:px-14 xl:pt-24"
+	sm:flex sm:flex-col sm:items-center xl:mt-0 xl:flex xl:flex-row xl:items-start xl:justify-center xl:gap-4 xl:px-14 xl:pt-24"
 >
 	<div class="sm:max-w-[480px] xl:mx-4 xl:min-h-[720px] xl:w-[800px]">
 		<div
@@ -179,14 +179,16 @@
 						1 ==
 					$activeDate
 						? 'bg-white text-gray-900'
-						: 'bg-gray-900 text-white'}"
+						: 'bg-gray-900 text-white'} {new Date(2025, $activeMonth - 1, date + 1).getDay() == 0
+						? 'bg-red-900 border-red-900'
+						: ''}"
 				>
 					{#if $dateEvents.find((d) => d.day == date + 1 && d.month == $activeMonth) != undefined}
 						<span class="absolute top-2 right-2 inline-flex size-4 rounded-full bg-sky-500"></span>
 					{/if}
 					<p class="p-2 pb-1">{date + 1 > 9 ? date + 1 : `0${date + 1}`}</p>
 					<span class="text-normal font-normal"
-						>{days[new Date(date + 1, $activeMonth - 1, 2025).getDay()]}</span
+						>{days[new Date(2025, $activeMonth - 1, date + 1).getDay()]}</span
 					>
 				</button>
 			{/each}
