@@ -20,10 +20,11 @@ export async function getValues(range: string) {
 }
 
 export async function getBatchValues(ranges: string[]) {
-    const params = ranges.map(d => `ranges=${encodeURIComponent(d)}`).join('&');
+    
+    const params = ranges.map(d => `ranges=${encodeURIComponent(d)}`).join('&');    
     const url = `https://sheets.googleapis.com/v4/spreadsheets/1KIDKlItOpjQIOBV2KlKQwz5M-Sb74GT1fG9_zLZlE14/values:batchGet?key=AIzaSyAkf88_H0D-KOUqpbGDX9pMOdoBbGrk5VQ&${params}`;
     const res = await fetch(url);
-    const data = await res.json();
+    const data = await res.json();    
     return data.valueRanges ?? [];
 }
 

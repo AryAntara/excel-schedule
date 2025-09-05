@@ -55,7 +55,7 @@
 
 	let days = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
 
-	async function getAllEvents(week?: number) {
+	async function getAllEvents(week?: number) {		
 		if (await isLatest())
 			try {
 				let events = JSON.parse(localStorage.getItem('events') ?? '');
@@ -72,12 +72,13 @@
 		let weeks = 8;
 		let eventOnWeeks: { week: number; activities: Activity[] }[] = [];
 		let sheetsNames: string[] = [];
-		for (let i = 1; i < weeks; i++) sheetsNames.push(`Minggu ${i}`);
+		for (let i = 1; i <= weeks; i++) sheetsNames.push(`Minggu ${i}!A6:F`);			
 
 		let bulkValues = await getBatchValues(sheetsNames);
 		let dates: DateEvent[] = [];
+		
 		for (let bv of bulkValues) {
-			let activities = extractEvent(bv.values.slice(5));
+			let activities = extractEvent(bv.values);
 			let week = bv.range.split('Minggu ')[1].split("'!")[0];
 			eventOnWeeks.push({ week, activities });
 			dates.push(
@@ -143,6 +144,7 @@
 		activeDate.set(date);
 		let week = getWeek();
 		let events = (await getAllEvents(week))?.activities ?? [];		
+		console.log(events);
 		activities.set(events.filter((e: Activity) => e.day == $activeDate && e.month == $activeMonth));
 	}
 
@@ -201,7 +203,7 @@
 				<div class="p-4 text-center">No Activity</div>
 			{/if}
 			{#each $activities as activity}
-				<div class="my-4">
+				<div class="mt-2 mb-4">
 					<div class="rounded-xl bg-gray-900 p-4 text-white">
 						<div>{activity.content}</div>
 						<div class="mt-4 flex items-center justify-between gap-2 rounded-md bg-white">
