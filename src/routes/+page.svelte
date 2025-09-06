@@ -21,7 +21,7 @@
 
 		let week = diff % 7 == 0 ? res + 1 : Math.ceil(res);
 
-		return week;
+		return week <= 0 ? 1 : week;
 	}
 	type DateEvent = {
 		day: number;
@@ -142,9 +142,8 @@
 
 	async function selectDate(date: number) {
 		activeDate.set(date);
-		let week = getWeek();
-		let events = (await getAllEvents(week))?.activities ?? [];
-		console.log(events);
+		let week = getWeek();		
+		let events = (await getAllEvents(week))?.activities ?? [];		
 		activities.set(events.filter((e: Activity) => e.day == $activeDate && e.month == $activeMonth));
 	}
 
@@ -175,7 +174,7 @@
 			{#each { length: $dateLength }, date}
 				<button
 					onclick={() => selectDate(date + 1)}
-					class="mx my-0 flex flex-col gap-2 rounded-xl border-2 border-gray-900 p-5 text-xl font-bold shadow-xl backdrop-blur-xl {date +
+					class="my-0 flex flex-col gap-2 rounded-xl border-2 border-gray-900 p-5 text-xl font-bold shadow-xl backdrop-blur-xl {date +
 						1 ==
 					$activeDate
 						? 'bg-white text-gray-900'
